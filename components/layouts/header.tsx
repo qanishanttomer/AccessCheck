@@ -1,11 +1,5 @@
-import { Accessibility, Github } from "lucide-react";
+import { Accessibility } from "lucide-react";
 import Link from "next/link";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
-
 const Header = () => {
   return (
     <header className="sticky top-0 z-50 glass backdrop-blur-sm border-b border-border/50">
@@ -24,7 +18,7 @@ const Header = () => {
             </div>
             <div className="flex flex-col">
               <span className="font-bold text-base sm:text-lg tracking-tight">
-                AccessCheck
+                Ratl AccessCheck
               </span>
               <span className="hidden xs:block text-[9px] sm:text-[10px] text-muted-foreground font-medium tracking-wide uppercase">
                 WCAG Compliance
@@ -32,25 +26,7 @@ const Header = () => {
             </div>
           </Link>
 
-          {/* Nav */}
-          <nav className="flex items-center gap-1 sm:gap-2">
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <a
-                  href="https://github.com/parshurambagade"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="p-2 sm:p-2.5 rounded-lg text-muted-foreground hover:text-foreground hover:bg-accent transition-smooth"
-                  aria-label="View on GitHub"
-                >
-                  <Github className="h-4 w-4 sm:h-5 sm:w-5" />
-                </a>
-              </TooltipTrigger>
-              <TooltipContent>
-                <p>Developer&apos;s GitHub</p>
-              </TooltipContent>
-            </Tooltip>
-          </nav>
+
         </div>
       </div>
     </header>

@@ -1,7 +1,6 @@
 import { urlSchema } from "@/schemas/url.schema";
 import { NextRequest } from "next/server";
-import fetchHtml from "@/lib/fetchHtml";
-import runAudit from "@/lib/audit/runAudit";
+import runAuditWithAxe from "@/lib/audit/runAudit";
 import { AuditResult } from "@/types";
 import prepareAuditResult from "@/lib/audit/prepareAuditResult";
 
@@ -20,17 +19,8 @@ export async function POST(req: NextRequest) {
 
     const { url } = parsedBody.data;
 
-    // fetch html content from url
-    const html = await fetchHtml(url);
-
-    if (!html) {
-      return Response.json(
-        { error: "Unable to fetch HTML from the provided URL" },
-        { status: 500 }
-      );
-    }
-
-    const auditTests = runAudit(html);
+    // Run the Playwright & Axe-core audit pipeline
+    const auditTests = await runAuditWithAxe(url);
     const result: AuditResult = prepareAuditResult(url, auditTests);
 
     return Response.json(result, { status: 200 });

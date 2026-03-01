@@ -15,7 +15,7 @@ const jetBrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "AccessCheck - Web Accessibility Testing Tool",
+  title: "Ratl AccessCheck - Web Accessibility Testing Tool",
   description:
     "Test your website for accessibility issues and get detailed recommendations to improve WCAG compliance. Make the web accessible for everyone.",
   keywords: [
