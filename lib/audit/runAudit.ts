@@ -1,4 +1,4 @@
-import { chromium } from "playwright";
+import { Page } from "playwright";
 import { AxeBuilder } from "@axe-core/playwright";
 import { RuleResult, RuleStatus, RuleIssue } from "@/types";
 
@@ -16,19 +16,22 @@ const calculateScore = (status: RuleStatus): number => {
   }
 };
 
-export default async function runAuditWithAxe(url: string): Promise<RuleResult[]> {
-  const browser = await chromium.launch({ headless: true });
-  const context = await browser.newContext();
-  const page = await context.newPage();
-
+export default async function runAuditOnPage(page: Page): Promise<RuleResult[]> {
   const results: RuleResult[] = [];
 
   try {
-    await page.goto(url, { waitUntil: "domcontentloaded", timeout: 60000 });
-
     // Run Axe-core scan
     const axeResults = await new AxeBuilder({ page })
-      .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa"]) // Covering overarching principles
+      .withTags([
+        "wcag2a",
+        "wcag2aa",
+        "wcag21a",
+        "wcag21aa",
+        "section508", // Covers Section 508 (US)
+        "en-301-549", // Covers EN 301 549 (EU)
+        // Note: ADA and AODA do not have specific explicit "tags" in axe-core because 
+        // both legally require WCAG 2.0/2.1 AA compliance, which is covered by the wcag tags above.
+      ])
       .analyze();
 
     // Map passed rules
@@ -84,10 +87,8 @@ export default async function runAuditWithAxe(url: string): Promise<RuleResult[]
     }
 
   } catch (error) {
-    console.error(`Failed to audit ${url}:`, error);
+    console.error(`Failed to audit page:`, error);
     throw error;
-  } finally {
-    await browser.close();
   }
 
   // Ensure we sort or limit results if needed, or just return them all.

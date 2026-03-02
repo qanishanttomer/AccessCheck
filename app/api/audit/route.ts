@@ -1,8 +1,6 @@
 import { urlSchema } from "@/schemas/url.schema";
 import { NextRequest } from "next/server";
-import runAuditWithAxe from "@/lib/audit/runAudit";
-import { AuditResult } from "@/types";
-import prepareAuditResult from "@/lib/audit/prepareAuditResult";
+import { crawlAndAuditGenerator } from "@/lib/audit/crawlAndAudit";
 
 export async function POST(req: NextRequest) {
   try {
@@ -19,29 +17,39 @@ export async function POST(req: NextRequest) {
 
     const { url } = parsedBody.data;
 
-    // Run the Playwright & Axe-core audit pipeline
-    const auditTests = await runAuditWithAxe(url);
-    const result: AuditResult = prepareAuditResult(url, auditTests);
+    // We use a ReadableStream for NDJSON streaming
+    const encoder = new TextEncoder();
+    const stream = new ReadableStream({
+      async start(controller) {
+        try {
+          for await (const event of crawlAndAuditGenerator(url)) {
+            controller.enqueue(encoder.encode(JSON.stringify(event) + "\n"));
+          }
+          controller.enqueue(encoder.encode(JSON.stringify({ type: "done" }) + "\n"));
+        } catch (err) {
+          controller.enqueue(
+            encoder.encode(JSON.stringify({ type: "error", error: String(err) }) + "\n")
+          );
+        } finally {
+          controller.close();
+        }
+      },
+    });
 
-    return Response.json(result, { status: 200 });
+    return new Response(stream, {
+      headers: {
+        "Content-Type": "application/x-ndjson",
+        "Cache-Control": "no-cache",
+        Connection: "keep-alive",
+      },
+    });
   } catch (error) {
-    // Handle JSON parsing errors
     if (error instanceof SyntaxError) {
       return Response.json(
         { error: "Invalid JSON in request body" },
         { status: 400 }
       );
     }
-
-    // Handle other errors
-    if (error instanceof Error) {
-      return Response.json(
-        { error: error.message || "Internal server error" },
-        { status: 500 }
-      );
-    }
-
-    // Fallback for unknown error types
     return Response.json({ error: "Internal server error" }, { status: 500 });
   }
 }

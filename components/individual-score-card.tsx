@@ -97,13 +97,12 @@ const IndividualScoreCard = ({
               <div className="flex items-center gap-1.5 sm:gap-2">
                 <div className="h-1 sm:h-1.5 w-14 sm:w-20 bg-muted rounded-full overflow-hidden">
                   <div
-                    className={`h-full rounded-full bg-linear-to-r ${
-                      rule.score >= 8
+                    className={`h-full rounded-full bg-linear-to-r ${rule.score >= 8
                         ? "from-emerald-500 to-teal-500"
                         : rule.score >= 5
-                        ? "from-amber-500 to-orange-500"
-                        : "from-rose-500 to-red-500"
-                    }`}
+                          ? "from-amber-500 to-orange-500"
+                          : "from-rose-500 to-red-500"
+                      }`}
                     style={{ width: `${rule.score * 10}%` }}
                   />
                 </div>
@@ -115,9 +114,8 @@ const IndividualScoreCard = ({
           </div>
 
           <div
-            className={`shrink-0 transition-transform duration-200 ${
-              isExpanded ? "rotate-180" : ""
-            }`}
+            className={`shrink-0 transition-transform duration-200 ${isExpanded ? "rotate-180" : ""
+              }`}
           >
             <ChevronDown className="h-4 w-4 sm:h-5 sm:w-5 text-muted-foreground" />
           </div>
@@ -169,13 +167,18 @@ const IndividualScoreCard = ({
                 <Code className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-primary" />
                 Issues Found
               </h4>
-              <div className="space-y-2">
+              <div className="space-y-3">
                 {rule.issues.map((issue: RuleIssue, idx: number) => (
                   <div
                     key={idx}
-                    className={`p-2.5 sm:p-3 md:p-4 rounded-lg border ${config.border} ${config.bg}`}
+                    className={`p-2.5 sm:p-3 md:p-4 rounded-lg border ${config.border} ${config.bg} flex flex-col gap-2`}
                   >
-                    <div className="font-mono text-[10px] sm:text-xs text-muted-foreground mb-1.5 sm:mb-2 break-all bg-background/50 px-1.5 sm:px-2 py-0.5 sm:py-1 rounded inline-block max-w-full overflow-x-auto">
+                    {issue.url && (
+                      <div className="text-[10px] sm:text-xs font-semibold text-primary break-all">
+                        📄 {issue.url}
+                      </div>
+                    )}
+                    <div className="font-mono text-[10px] sm:text-xs text-muted-foreground break-all bg-background/50 px-1.5 sm:px-2 py-0.5 sm:py-1 rounded inline-block max-w-full overflow-x-auto">
                       {issue.selector}
                     </div>
                     <div className="text-xs sm:text-sm">{issue.issue}</div>

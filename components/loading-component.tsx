@@ -1,6 +1,10 @@
 import { Loader2 } from "lucide-react";
 
-const LoadingComponent = () => {
+interface LoadingComponentProps {
+  progressMsg?: string | null;
+}
+
+const LoadingComponent = ({ progressMsg }: LoadingComponentProps) => {
   return (
     <div className="mt-8 sm:mt-12 flex flex-col items-center gap-3 sm:gap-4 animate-in fade-in">
       <div className="relative">
@@ -11,10 +15,10 @@ const LoadingComponent = () => {
       </div>
       <div className="text-center">
         <p className="font-medium text-sm sm:text-base">
-          Analyzing your website...
+          {progressMsg || "Analyzing your website..."}
         </p>
-        <p className="text-xs sm:text-sm text-muted-foreground">
-          This may take a few seconds
+        <p className="text-xs sm:text-sm text-muted-foreground mt-1">
+          {progressMsg ? "Deep scan in progress... This may take a few minutes." : "Building crawler context..."}
         </p>
       </div>
     </div>

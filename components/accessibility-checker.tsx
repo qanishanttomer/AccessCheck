@@ -7,7 +7,7 @@ import SearchCard from "./search-card";
 import HeroSection from "./hero-section";
 
 export function AccessibilityChecker() {
-  const { isLoading, report, generateReport, error, url, setUrl } = useAudit();
+  const { isLoading, report, generateReport, error, url, setUrl, progressMsg } = useAudit();
 
   return (
     <div className="w-full">
@@ -25,7 +25,7 @@ export function AccessibilityChecker() {
         />
 
         {/* Loading state */}
-        {isLoading && <LoadingComponent />}
+        {isLoading && <LoadingComponent progressMsg={progressMsg} />}
       </div>
 
       {/* Report Section */}

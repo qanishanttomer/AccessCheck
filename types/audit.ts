@@ -7,6 +7,7 @@ export enum RuleStatus {
 export interface RuleIssue {
   selector: string;
   issue: string;
+  url?: string; // added for domain scanning attribution
 }
 
 export interface RuleResult {
