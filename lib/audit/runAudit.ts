@@ -27,8 +27,11 @@ export default async function runAuditOnPage(page: Page): Promise<RuleResult[]> 
         "wcag2aa",
         "wcag21a",
         "wcag21aa",
+        "wcag22a",    // Added WCAG 2.2 Level A
+        "wcag22aa",   // Added WCAG 2.2 Level AA
         "section508", // Covers Section 508 (US)
         "en-301-549", // Covers EN 301 549 (EU)
+        "best-practice" // Added structural/semantic best practices (e.g. heading order)
         // Note: ADA and AODA do not have specific explicit "tags" in axe-core because 
         // both legally require WCAG 2.0/2.1 AA compliance, which is covered by the wcag tags above.
       ])
