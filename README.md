@@ -1,24 +1,4 @@
-## AccessCheck
-
-**AccessCheck** is a lightweight web accessibility audit tool that checks a URL against **10 common accessibility rules** and generates a clean, actionable report (scores, issues, and how-to-fix guidance).
-
-- **Live demo**: [access-check-web.vercel.app](https://access-check-web.vercel.app/)
-- **GitHub**: [github.com/parshurambagade/access-check](https://github.com/parshurambagade/access-check)
-
-### Screenshots
-
-<table>
-  <tr>
-    <td><img src="./screenshots/home.webp" alt="Home / URL input" /></td>
-    <td><img src="./screenshots/summary.webp" alt="Report summary" /></td>
-  </tr>
-  <tr>
-    <td><img src="./screenshots/rules-list.webp" alt="Rule details" /></td>
-    <td><img src="./screenshots/issues.webp" alt="Issue details" /></td>
-  </tr>
-</table>
-
-### W# AccessCheck - Enterprise-Grade Accessibility Crawler
+# AccessCheck - Enterprise-Grade Accessibility Crawler
 
 AccessCheck is a powerful, real-time accessibility auditing tool built to help teams guarantee their web applications meet strict international accessibility and legal standards.
 
